@@ -27,7 +27,10 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 	global_id.InitWithRedis(uint64(biz_config.GetBizConfigInstance().BusinessID))
 
 	// 7. init mongodb
+	initMongo(config)
+
 	// 8. init kafka
+
 	// 9. init cron and start cron job
 	// 10. init hertz client
 	// 11. init local cache from redis, and start goroutine to sync cache to redis periodically

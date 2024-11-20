@@ -153,5 +153,5 @@ type GlobalConfig struct {
 	Kafka      *Kafka                  `yaml:"kafka"`      // Kafka config
 	MySQL      map[string]*MySQLConfig `yaml:"mysql"`      // MySQL config
 	Redis      map[string]*RedisConfig `yaml:"redis"`      // Redis config
-	Mongo      map[string]*MongoConfig `yaml:"mongo"`      // Mongo config
+	Mongo      *MongoConfig            `yaml:"mongo"`      // Mongo config
 }
