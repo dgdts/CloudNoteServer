@@ -33,18 +33,15 @@ func (l *LocalConfigSource) Load(path string) (*GlobalConfig, error) {
 }
 
 func (l *LocalConfigSource) loadFile(path string) (*GlobalConfig, error) {
-	// 确保文件存在
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return nil, fmt.Errorf("config file not found: %s", path)
 	}
 
-	// 读取文件内容
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %w", err)
 	}
 
-	// 解析YAML
 	config := &GlobalConfig{}
 	if err := yaml.Unmarshal(data, config); err != nil {
 		return nil, fmt.Errorf("failed to parse config file: %w", err)
@@ -54,7 +51,6 @@ func (l *LocalConfigSource) loadFile(path string) (*GlobalConfig, error) {
 }
 
 func (l *LocalConfigSource) Watch() (<-chan *GlobalConfig, error) {
-	// 创建文件监听器
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create watcher: %w", err)
@@ -64,7 +60,6 @@ func (l *LocalConfigSource) Watch() (<-chan *GlobalConfig, error) {
 	l.watcher = watcher
 	l.mutex.Unlock()
 
-	// 添加文件到监听列表
 	dir := filepath.Dir(l.path)
 	if err := watcher.Add(dir); err != nil {
 		watcher.Close()
@@ -73,7 +68,6 @@ func (l *LocalConfigSource) Watch() (<-chan *GlobalConfig, error) {
 
 	configChan := make(chan *GlobalConfig)
 
-	// 启动监听协程
 	go l.watchConfig(configChan)
 
 	return configChan, nil
