@@ -1,5 +1,7 @@
 package config
 
+import "github.com/dgdts/UniversalServer/pkg/kafka"
+
 type Global struct {
 	NameSpace     string `yaml:"namespace"`
 	EnvName       string `yaml:"env_name"`
@@ -64,41 +66,26 @@ type Prometheus struct {
 	Path   string `yaml:"path"`
 }
 
-type SaslConfig struct {
-	SaslType      string `yaml:"sasl_type"`
-	SaslUsername  string `yaml:"sasl_username"`
-	SaslPassword  string `yaml:"sasl_password"`
-	SaslScramAlgo string `yaml:"sasl_scram_algo"`
-}
-
-type TlsConfig struct {
-	TlsEnable          bool   `yaml:"tls_enable"`
-	CaFile             string `yaml:"ca_file"`
-	CertFile           string `yaml:"cert_file"`
-	KeyFile            string `yaml:"key_file"`
-	InsecureSkipVerify bool   `yaml:"insecure_skip_verify"`
-}
-
 type ProducerConfig struct {
-	Key           string      `yaml:"key"`
-	Address       []string    `yaml:"address"`
-	Async         bool        `yaml:"async"`
-	Topic         string      `yaml:"topic"`
-	Ack           int         `yaml:"ack"`
-	CompressCodec string      `yaml:"compress_codec"`
-	SaslConfig    *SaslConfig `yaml:"sasl_config"`
-	TlsConfig     *TlsConfig  `yaml:"tls_config"`
+	Key           string            `yaml:"key"`
+	Address       []string          `yaml:"address"`
+	Async         bool              `yaml:"async"`
+	Topic         string            `yaml:"topic"`
+	Ack           int               `yaml:"ack"`
+	CompressCodec string            `yaml:"compress_codec"`
+	SaslConfig    *kafka.SaslConfig `yaml:"sasl_config"`
+	TlsConfig     *kafka.TlsConfig  `yaml:"tls_config"`
 }
 
 type ConsumerConfig struct {
-	Key        string      `yaml:"key"`
-	Address    []string    `yaml:"address"`
-	Group      string      `yaml:"group"`
-	Topic      string      `yaml:"topic"`
-	Partition  int         `yaml:"partition"`
-	Offset     int64       `yaml:"offset"`
-	SaslConfig *SaslConfig `yaml:"sasl_config"`
-	TlsConfig  *TlsConfig  `yaml:"tls_config"`
+	Key        string            `yaml:"key"`
+	Address    []string          `yaml:"address"`
+	Group      string            `yaml:"group"`
+	Topic      string            `yaml:"topic"`
+	Partition  int               `yaml:"partition"`
+	Offset     int64             `yaml:"offset"`
+	SaslConfig *kafka.SaslConfig `yaml:"sasl_config"`
+	TlsConfig  *kafka.TlsConfig  `yaml:"tls_config"`
 }
 
 type Kafka struct {

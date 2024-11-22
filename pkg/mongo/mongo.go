@@ -7,7 +7,7 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	mongoOption "go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoClient struct {
@@ -16,6 +16,7 @@ type MongoClient struct {
 	Password    string `yaml:"password"`
 	MaxPoolSize int    `yaml:"max_pool_size"`
 	MinPoolSize int    `yaml:"min_pool_size"`
+	Database    string `yaml:"database"`
 
 	client *mongo.Client
 	once   sync.Once
@@ -39,7 +40,7 @@ func getMongoClientManagerInstance() *mongoClientManager {
 
 func (mc *MongoClient) connect() *mongo.Client {
 	mc.once.Do(func() {
-		clientOptions := options.Client().ApplyURI(mc.getURI())
+		clientOptions := mongoOption.Client().ApplyURI(mc.getURI())
 		clientOptions.SetMaxPoolSize(uint64(mc.MaxPoolSize))
 		clientOptions.SetMinPoolSize(uint64(mc.MinPoolSize))
 
@@ -69,4 +70,40 @@ func (mc *MongoClient) getURI() string {
 func RegisterConnection(configs *MongoClient) {
 	getMongoClientManagerInstance().connection = configs
 	getMongoClientManagerInstance().connection.connect()
+}
+
+func SelectDB(dbName string) *mongo.Database {
+	return getMongoClientManagerInstance().connection.client.Database(dbName)
+}
+
+type options struct {
+	dbName                 string
+	mongoCollectionOptions []*mongoOption.CollectionOptions
+}
+
+type CollectionOption func(opt *options)
+
+func WithDBName(dbName string) CollectionOption {
+	return func(opt *options) {
+		opt.dbName = dbName
+	}
+}
+
+func WithCollectionOptions(mongoCollectionOptions []*mongoOption.CollectionOptions) CollectionOption {
+	return func(opt *options) {
+		opt.mongoCollectionOptions = append(opt.mongoCollectionOptions, mongoCollectionOptions...)
+	}
+}
+
+func RawCollection(collectionName string, opts ...CollectionOption) *mongo.Collection {
+	mongoOptions := &options{
+		dbName: getMongoClientManagerInstance().connection.Database,
+	}
+
+	if len(opts) > 0 {
+		for _, o := range opts {
+			o(mongoOptions)
+		}
+	}
+	return SelectDB(mongoOptions.dbName).Collection(collectionName, mongoOptions.mongoCollectionOptions...)
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/dgdts/UniversalServer/biz/biz_config"
 	"github.com/dgdts/UniversalServer/pkg/config"
+	"github.com/dgdts/UniversalServer/pkg/cron"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
 )
 
@@ -30,9 +31,15 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 	initMongo(config)
 
 	// 8. init kafka
+	initAndRunKafkaConsumer(config)
 
 	// 9. init cron and start cron job
+	cron.Start()
+
 	// 10. init hertz client
-	// 11. init local cache from redis, and start goroutine to sync cache to redis periodically
+	initHertzClient(config)
+
+	// 11. init local cache from redis, also start to sync redis from db
+
 	return s
 }
