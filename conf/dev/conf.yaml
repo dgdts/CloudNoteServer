@@ -11,7 +11,7 @@ hertz:
   enable_gzip: true 
   enable_access_log: true
   service: 
-    - name: "cms_api_service"
+    - name: "universal_server"
       addr: ":9898"
 
 log:                      #日志配置

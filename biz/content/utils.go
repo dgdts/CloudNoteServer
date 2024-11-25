@@ -1,4 +1,4 @@
-package contents
+package content
 
 import "context"
 

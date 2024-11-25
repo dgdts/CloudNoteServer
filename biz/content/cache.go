@@ -1,4 +1,4 @@
-package contents
+package content
 
 import (
 	"context"
@@ -16,7 +16,7 @@ import (
 var cacheKey = "contents"
 var cacheMap sync.Map
 
-var contentLoader = loader.ChainFunc[*ContentsData]{
+var contentLoader = loader.ChainFunc[*ContentData]{
 	loader.SingleFlightLoader("fromCache", fromCache),
 	loader.SingleFlightLoader("fromRedis", fromRedis),
 	loader.SingleFlightLoader("fromDB", fromDB),
@@ -27,18 +27,18 @@ func InitCache() {
 	// TODO: Add cron job to sync redis from db periodically
 }
 
-func GetContent(ctx context.Context, contentID string) (*ContentsData, error) {
+func GetContent(ctx context.Context, contentID string) (*ContentData, error) {
 	return contentLoader.Load(ctx, contentID)
 }
 
-func fromCache(ctx context.Context, contentID string) (*ContentsData, error) {
+func fromCache(ctx context.Context, contentID string) (*ContentData, error) {
 	if content, ok := cacheMap.Load(contentID); ok {
-		return content.(*ContentsData), nil
+		return content.(*ContentData), nil
 	}
 	return nil, loader.ErrNext
 }
 
-func fromRedis(ctx context.Context, contentID string) (*ContentsData, error) {
+func fromRedis(ctx context.Context, contentID string) (*ContentData, error) {
 	content, err := redisClient.GetConnection().Get(ctx, cacheKey+":"+contentID).Result()
 	if err != nil {
 		if err == redis.Nil {
@@ -47,7 +47,7 @@ func fromRedis(ctx context.Context, contentID string) (*ContentsData, error) {
 		return nil, err
 	}
 
-	var contentData ContentsData
+	var contentData ContentData
 	err = json.Unmarshal([]byte(content), &contentData)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func fromRedis(ctx context.Context, contentID string) (*ContentsData, error) {
 	return &contentData, nil
 }
 
-func fromDB(ctx context.Context, contentID string) (*ContentsData, error) {
+func fromDB(ctx context.Context, contentID string) (*ContentData, error) {
 	content, err := ContentByID(ctx, contentID)
 	if err != nil {
 		return nil, err

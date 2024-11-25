@@ -3,6 +3,7 @@ package init
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/dgdts/UniversalServer/biz/biz_config"
+	"github.com/dgdts/UniversalServer/biz/router"
 	"github.com/dgdts/UniversalServer/pkg/config"
 	"github.com/dgdts/UniversalServer/pkg/cron"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
@@ -40,6 +41,9 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 	//initHertzClient(config)
 
 	// 11. init local cache from redis, also start to sync redis from db
+
+	// 12. register router
+	router.GeneratedRegister(s)
 
 	return s
 }

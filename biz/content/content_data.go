@@ -1,4 +1,4 @@
-package contents
+package content
 
 import (
 	"context"
@@ -16,7 +16,7 @@ type User struct {
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-type ContentsData struct {
+type ContentData struct {
 	ID        string    `json:"id" bson:"_id"`
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
@@ -25,13 +25,13 @@ type ContentsData struct {
 	IsDeleted bool      `json:"is_deleted"`
 }
 
-func InsertContent(ctx context.Context, content *ContentsData) error {
+func InsertContent(ctx context.Context, content *ContentData) error {
 	r := mongo.Inserter(ContentCollection(ctx)).Insert(ctx, content)
 	return r.Error()
 }
 
-func ContentByID(ctx context.Context, contentID string) (*ContentsData, error) {
-	content := &ContentsData{}
+func ContentByID(ctx context.Context, contentID string) (*ContentData, error) {
+	content := &ContentData{}
 	err := mongo.Finder(ContentCollection(ctx)).FindOne(ctx, "_id", contentID).Read(content)
 	return content, err
 }

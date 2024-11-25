@@ -11,7 +11,7 @@ type Global struct {
 
 type Service struct {
 	Name    string `yaml:"name"`
-	Address string `yaml:"address"`
+	Address string `yaml:"addr"`
 }
 
 type Hertz struct {
