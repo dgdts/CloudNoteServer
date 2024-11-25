@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"path/filepath"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -12,8 +13,13 @@ import (
 
 func main() {
 	// 1. read and parse config
-	configFilePath := flag.String("config", "./conf/dev/config.yaml", "config file path")
-	config, err := config.InitConfigFromLocal(*configFilePath)
+	configFilePath := flag.String("config", "../../conf/dev/conf.yaml", "config file path")
+	absPath, err := filepath.Abs(*configFilePath)
+	if err != nil {
+		panic(err)
+	}
+
+	config, err := config.InitConfigFromLocal(absPath)
 	if err != nil {
 		panic(err)
 	}

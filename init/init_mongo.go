@@ -7,9 +7,12 @@ import (
 
 func initMongo(config *config.GlobalConfig) {
 	mongoConfig := &mongo.MongoClient{
-		Path:     config.Mongo.Path,
-		Username: config.Mongo.Username,
-		Password: config.Mongo.Password,
+		Path:        config.Mongo.Path,
+		Username:    config.Mongo.Username,
+		Password:    config.Mongo.Password,
+		MaxPoolSize: config.Mongo.MaxPoolSize,
+		MinPoolSize: config.Mongo.MinPoolSize,
+		Database:    config.Mongo.Database,
 	}
 	mongo.RegisterConnection(mongoConfig)
 }

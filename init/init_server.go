@@ -13,7 +13,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	hertz_utils "github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/dgdts/UniversalServer/pkg/config"
-	prometheus "github.com/hertz-contrib/monitor-prometheus"
 	"github.com/hertz-contrib/registry/nacos"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -33,25 +32,25 @@ func initServer(config *config.GlobalConfig) *server.Hertz {
 		serverOptions = append(serverOptions, server.WithHandleMethodNotAllowed(true))
 	}
 
-	// generate hertz server hertz registry center config
-	registryConfig, err := generateHertzRegistryConfig(config)
-	if err != nil {
-		hlog.Errorf("generate hertz registry config error: %v", err)
-		return nil
-	}
+	// // generate hertz server hertz registry center config
+	// registryConfig, err := generateHertzRegistryConfig(config)
+	// if err != nil {
+	// 	hlog.Errorf("generate hertz registry config error: %v", err)
+	// 	return nil
+	// }
 
-	serverOptions = append(serverOptions, *registryConfig)
+	// serverOptions = append(serverOptions, *registryConfig)
 
-	// add prometheus config
-	if config.Prometheus != nil && config.Prometheus.Enable {
-		serverOptions = append(serverOptions, server.WithTracer(prometheus.NewServerTracer(config.Prometheus.Addr, config.Prometheus.Path)))
-	}
+	// // add prometheus config
+	// if config.Prometheus != nil && config.Prometheus.Enable {
+	// 	serverOptions = append(serverOptions, server.WithTracer(prometheus.NewServerTracer(config.Prometheus.Addr, config.Prometheus.Path)))
+	// }
 
 	s := server.New(serverOptions...)
 	return s
 }
 
-func generateHertzRegistryConfig(config *config.GlobalConfig) (*hertz_config.Option, error) {
+func _generateHertzRegistryConfig(config *config.GlobalConfig) (*hertz_config.Option, error) {
 	nacosRegistryServiceConfig := make([]constant.ServerConfig, 0)
 	for _, addr := range config.Registry.RegistryAddress {
 		ipAndPort := strings.Split(addr, ":")

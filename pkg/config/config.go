@@ -127,6 +127,7 @@ type MongoConfig struct {
 	Password    string `yaml:"password"`
 	MaxPoolSize int    `yaml:"max_pool_size"`
 	MinPoolSize int    `yaml:"min_pool_size"`
+	Database    string `yaml:"database"`
 }
 
 type GlobalConfig struct {

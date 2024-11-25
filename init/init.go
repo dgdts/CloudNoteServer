@@ -19,25 +19,25 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 	initMiddleware(s, config)
 
 	// 4. init biz config with nacos
-	biz_config.GetBizConfigInstance().Init(config)
+	// biz_config.GetBizConfigInstance().Init(config)
 
 	// 5. init redis
-	initRedis(config)
+	// initRedis(config)
 
 	// 6. init global id generator
-	global_id.InitWithRedis(uint64(biz_config.GetBizConfigInstance().BusinessID))
+	global_id.InitWithLocalMachine(uint64(biz_config.GetBizConfigInstance().BusinessID))
 
 	// 7. init mongodb
 	initMongo(config)
 
 	// 8. init kafka
-	initAndRunKafkaConsumer(config)
+	//initAndRunKafkaConsumer(config)
 
 	// 9. init cron and start cron job
 	cron.Start()
 
 	// 10. init hertz client
-	initHertzClient(config)
+	//initHertzClient(config)
 
 	// 11. init local cache from redis, also start to sync redis from db
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -43,23 +44,34 @@ func (mc *MongoClient) connect() *mongo.Client {
 		clientOptions := mongoOption.Client().ApplyURI(mc.getURI())
 		clientOptions.SetMaxPoolSize(uint64(mc.MaxPoolSize))
 		clientOptions.SetMinPoolSize(uint64(mc.MinPoolSize))
+		clientOptions.SetServerSelectionTimeout(10 * time.Second)
 
 		var err error
 		mc.client, err = mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {
+			hlog.Errorf("Failed to create MongoDB client: %v", err)
 			panic(err)
 		}
-		err = mc.client.Ping(context.TODO(), nil)
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		err = mc.client.Ping(ctx, nil)
 		if err != nil {
+			hlog.Errorf("Connection URI: %s", mc.Path)
 			panic(err)
 		}
-		hlog.Debug("connect mongo success, uri:" + mc.getURI())
+		hlog.Debugf("connect mongo success, uri: %s", mc.getURI())
 	})
 
 	return mc.client
 }
 
 func (mc *MongoClient) getURI() string {
+	if mc.Path == "" {
+		panic("MongoDB path cannot be empty")
+	}
+
 	if mc.Username == "" {
 		return fmt.Sprintf("mongodb://%s", mc.Path)
 	}

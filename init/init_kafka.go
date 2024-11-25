@@ -5,7 +5,7 @@ import (
 	"github.com/dgdts/UniversalServer/pkg/kafka"
 )
 
-func initAndRunKafkaConsumer(config *config.GlobalConfig) {
+func _initAndRunKafkaConsumer(config *config.GlobalConfig) {
 	producerConfigsMap := make(map[string]*kafka.KafkaProducer)
 
 	for _, producerConfig := range config.Kafka.Producer {

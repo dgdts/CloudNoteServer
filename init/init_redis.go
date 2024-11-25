@@ -5,7 +5,7 @@ import (
 	"github.com/dgdts/UniversalServer/pkg/redis"
 )
 
-func initRedis(config *config.GlobalConfig) {
+func _initRedis(config *config.GlobalConfig) {
 	redisConfigMap := make(map[string]*redis.RedisClient)
 
 	for redisName, redisConfig := range config.Redis {

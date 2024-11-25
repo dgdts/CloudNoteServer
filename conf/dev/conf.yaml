@@ -1,17 +1,50 @@
+global:                     #全局配置
+  namespace: Development     #环境类型, 首字母大写, 正式环境：Production 开发环境：Development 测试环境：Test 根据具体需求可只建立正式环境和开发环境
+  env_name: dev          #环境名称, 正式环境: prod  开发环境/测试环境: test
+  local_ip: ${POD_IP}
+  container_name: ${HOSTNAME}
+
 hertz:
-  address: ":8080"
+  app: "ssg"
+  server: "enterbuild"
   enable_pprof: true
-  enable_gzip: true
+  enable_gzip: true 
   enable_access_log: true
-  log_level: info
+  service: 
+    - name: "cms_api_service"
+      addr: ":9898"
+
+log:                      #日志配置
+  log_mode: console
+  log_level: debug
   log_file_name: "log/hertz.log"
   log_max_size: 10
   log_max_age: 3
   log_max_backups: 50
 
-mysql:
-  dsn: "gorm:gorm@tcp(127.0.0.1:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
-
-redis:
-  address: "127.0.0.1:6379"
+mongo:
+  path: "localhost:27017/"
+  username: ""
   password: ""
+  max_pool_size: 20
+  min_pool_size: 10
+  database: "universal_server"
+
+
+registry:                 #注册中心
+  name: nacos
+  namespace: "9f36909a-1c02-4ed7-8bc4-d744c6660350"
+  registry_address:
+    - 10.11.89.99:8848
+
+selector:                 #服务发现
+  name: nacos
+  namespace: "9f36909a-1c02-4ed7-8bc4-d744c6660350" 
+  server_addr:
+    - 10.11.89.99:8848
+
+config:                   #配置中心
+  name: nacos 
+  server_addr:
+    - 10.11.89.99:8848
+  namespace: "9f36909a-1c02-4ed7-8bc4-d744c6660350"

@@ -19,7 +19,7 @@ const (
 
 var HertzClient *client.Client
 
-func initHertzClient(config *config.GlobalConfig) {
+func _initHertzClient(config *config.GlobalConfig) {
 	client, err := client.NewClient()
 	if err != nil {
 		panic(err)
