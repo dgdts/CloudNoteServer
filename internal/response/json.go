@@ -14,3 +14,8 @@ func JSONError(c *app.RequestContext, err error) {
 	c.Response.Header.Set("bizStatus", strconv.Itoa(resp.Status))
 	c.JSON(http.StatusOK, resp)
 }
+
+func JSONSuccess(c *app.RequestContext, data interface{}) {
+	resp := NewResultWithData(data)
+	c.JSON(http.StatusOK, resp)
+}

@@ -1,4 +1,4 @@
-package content
+package biz_content
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/dgdts/UniversalServer/pkg/loader.go"
+	"github.com/dgdts/UniversalServer/pkg/loader"
 
 	redisClient "github.com/dgdts/UniversalServer/pkg/redis"
 	redis "github.com/redis/go-redis/v9"

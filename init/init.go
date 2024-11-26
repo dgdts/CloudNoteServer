@@ -7,6 +7,7 @@ import (
 	"github.com/dgdts/UniversalServer/pkg/config"
 	"github.com/dgdts/UniversalServer/pkg/cron"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
+	"github.com/dgdts/UniversalServer/pkg/minio"
 )
 
 func InitServer(config *config.GlobalConfig) *server.Hertz {
@@ -44,6 +45,9 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 
 	// 12. register router
 	router.GeneratedRegister(s)
+
+	// 13. init minio
+	minio.Init(config.Minio)
 
 	return s
 }

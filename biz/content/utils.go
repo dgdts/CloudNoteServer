@@ -1,4 +1,4 @@
-package content
+package biz_content
 
 import "context"
 

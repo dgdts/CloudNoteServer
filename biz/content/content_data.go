@@ -1,4 +1,4 @@
-package content
+package biz_content
 
 import (
 	"context"
@@ -7,15 +7,6 @@ import (
 	"github.com/dgdts/UniversalServer/pkg/mongo"
 )
 
-type User struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	Avatar    string    `json:"avatar"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	IsDeleted bool      `json:"is_deleted"`
-}
-
 type ContentData struct {
 	ID        string    `json:"id" bson:"_id"`
 	Title     string    `json:"title"`
@@ -23,6 +14,7 @@ type ContentData struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	IsDeleted bool      `json:"is_deleted"`
+	Username  string    `json:"username"`
 }
 
 func InsertContent(ctx context.Context, content *ContentData) error {

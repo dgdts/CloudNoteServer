@@ -30,6 +30,12 @@ mongo:
   min_pool_size: 10
   database: "universal_server"
 
+minio:
+  endpoint: "localhost:9000"
+  access_key_id: "minioadmin"
+  secret_access_key: "minioadmin123"
+  use_ssl: false
+  bucket_name: "universalserver"
 
 registry:                 #注册中心
   name: nacos

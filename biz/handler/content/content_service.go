@@ -7,7 +7,9 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	biz_content "github.com/dgdts/UniversalServer/biz/content"
 	content "github.com/dgdts/UniversalServer/biz/model/content"
+	"github.com/dgdts/UniversalServer/internal/response"
 )
 
 // CreateContent .
@@ -21,7 +23,11 @@ func CreateContent(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp := new(content.ContentResponse)
+	resp, err := biz_content.CreateContent(ctx, &req, c)
+	if err != nil {
+		response.JSONError(c, err)
+		return
+	}
 
-	c.JSON(consts.StatusOK, resp)
+	response.JSONSuccess(c, resp)
 }

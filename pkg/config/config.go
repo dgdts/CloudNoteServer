@@ -1,6 +1,9 @@
 package config
 
-import "github.com/dgdts/UniversalServer/pkg/kafka"
+import (
+	"github.com/dgdts/UniversalServer/pkg/kafka"
+	"github.com/dgdts/UniversalServer/pkg/minio"
+)
 
 type Global struct {
 	NameSpace     string `yaml:"namespace"`
@@ -142,4 +145,5 @@ type GlobalConfig struct {
 	MySQL      map[string]*MySQLConfig `yaml:"mysql"`      // MySQL config
 	Redis      map[string]*RedisConfig `yaml:"redis"`      // Redis config
 	Mongo      *MongoConfig            `yaml:"mongo"`      // Mongo config
+	Minio      *minio.Config           `yaml:"minio"`      // Minio config
 }
