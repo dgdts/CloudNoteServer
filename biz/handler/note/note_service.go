@@ -10,13 +10,14 @@ import (
 	"github.com/dgdts/UniversalServer/biz/biz_context"
 	"github.com/dgdts/UniversalServer/biz/model/note"
 	noteBiz "github.com/dgdts/UniversalServer/biz/note"
+	"github.com/dgdts/UniversalServer/biz/note/model"
 )
 
 // CreateNote .
 // @router /api/v1/notes [POST]
 func CreateNote(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req note.CreateNoteRequest
+	var req model.Node
 	err = c.BindAndValidate(&req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())

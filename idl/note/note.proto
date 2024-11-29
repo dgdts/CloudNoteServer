@@ -24,14 +24,7 @@ message NoteMeta {
     google.protobuf.Timestamp updated_at = 11;
 }
 
-message CreateNoteRequest {
-    string title = 1;
-    string type = 2;
-    repeated string tags = 3;
-    oneof note {
-        MarkdownNote markdown_note = 4;
-    }
-}
+message CreateNoteRequest {}
 
 message CreateNoteResponse {
     string id = 1;
