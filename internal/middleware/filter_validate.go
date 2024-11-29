@@ -55,13 +55,5 @@ func (f *FilterValidate) doFilter(ctx context.Context, c *app.RequestContext) er
 		return err
 	}
 
-	if bizCtx.ProjectCode == "" {
-		err := errors.New("project code not found")
-		hlog.CtxErrorf(ctx, "%v", err)
-		return err
-	}
-
-	// TODO: Query DB to validate the ProjectCode
-
 	return nil
 }

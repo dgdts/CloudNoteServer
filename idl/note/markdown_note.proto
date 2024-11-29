@@ -1,0 +1,12 @@
+// idl/note/markdown_note.proto
+
+syntax = "proto3";
+
+package note;
+
+option go_package = "/note";
+
+message MarkdownNote {
+    string content = 1;
+}
+

@@ -1,0 +1,76 @@
+// idl/user/user.proto
+
+syntax = "proto3";
+
+package user;
+
+option go_package = "/user";
+
+import "api.proto";
+import "google/protobuf/timestamp.proto";
+
+// 用户信息
+message User {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string avatar = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+// 登录请求
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+// 登录响应
+message LoginResponse {
+    User user = 1;
+    string access_token = 2;
+    string refresh_token = 3;
+}
+
+// 刷新令牌请求
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+// 刷新令牌响应
+message RefreshTokenResponse {
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+// 登出请求
+message LogoutRequest {}
+
+// 登出响应
+message LogoutResponse {
+    bool success = 1;
+}
+
+message GetCurrentUserRequest {}
+
+service UserService {
+    // 登录
+    rpc Login(LoginRequest) returns (LoginResponse) {
+        option (api.post) = "/api/v1/auth/login";
+    }
+
+    // 刷新令牌
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+        option (api.post) = "/api/v1/auth/refresh";
+    }
+
+    // 登出
+    rpc Logout(LogoutRequest) returns (LogoutResponse) {
+        option (api.post) = "/api/v1/auth/logout";
+    }
+
+    // 获取当前用户信息
+    rpc GetCurrentUser(GetCurrentUserRequest) returns (User) {
+        option (api.get) = "/api/v1/users/me";
+    }
+}

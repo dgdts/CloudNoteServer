@@ -19,6 +19,7 @@ var _ Filter = (*FilterLogin)(nil)
 func (f *FilterLogin) Init() {
 	excludePaths := []string{
 		"/ping",
+		"/api/v1/auth/login",
 	}
 
 	f.excludePaths = excludePaths

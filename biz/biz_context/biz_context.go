@@ -3,8 +3,10 @@ package biz_context
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/dgdts/UniversalServer/pkg/utils"
 )
 
 type User struct {
@@ -14,13 +16,16 @@ type User struct {
 
 type BizContext struct {
 	context.Context
-	ProjectCode string `header:"projectCode"`
-	Lang        string `header:"lang"`
 	User
 	Resources []string
 }
 
 func NewBizContext(ctx context.Context, c *app.RequestContext) (*BizContext, error) {
+	if utils.IsDevEnv() {
+		c.Set("user_id", "test_user_id")
+		c.Set("user_name", "test_user")
+	}
+
 	userID, ok := c.Get("user_id")
 	if !ok {
 		return nil, errors.New("user id not found")
@@ -70,4 +75,12 @@ func Background() *BizContext {
 	return &BizContext{
 		Context: context.Background(),
 	}
+}
+
+func (b *BizContext) GlobalCollection(collection string) string {
+	return fmt.Sprintf("g_%s", collection)
+}
+
+func (b *BizContext) UserCollection(collection string) string {
+	return fmt.Sprintf("%s_%s", b.User.UserID, collection)
 }
