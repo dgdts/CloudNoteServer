@@ -10,6 +10,7 @@ import (
 	"github.com/dgdts/UniversalServer/biz/note/note_meta"
 	"github.com/dgdts/UniversalServer/biz/note/types"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteResponse, error) {
@@ -48,4 +49,49 @@ func NewNoteHandler(noteType string) types.NoteHandler {
 	default:
 		return nil
 	}
+}
+
+func ListNotes(ctx *biz_context.BizContext, req *note.ListNotesRequest) (*note.ListNotesResponse, error) {
+	metas, err := note_meta.ListNoteMetas(ctx, ctx.UserID, req.Page, req.PageSize)
+	if err != nil {
+		return nil, err
+	}
+
+	noteMetas := make([]*note.NoteMeta, 0)
+
+	for _, meta := range metas {
+		noteMetas = append(noteMetas, &note.NoteMeta{
+			UserId:     meta.UserID,
+			Title:      meta.Title,
+			Type:       meta.Type,
+			NoteId:     meta.NoteID,
+			Version:    meta.Version,
+			IsPublic:   meta.IsPublic,
+			ShareToken: meta.ShareToken,
+			Tags:       meta.Tags,
+			CreatedAt:  timestamppb.New(meta.CreatedAt),
+			UpdatedAt:  timestamppb.New(meta.UpdatedAt),
+		})
+	}
+
+	return &note.ListNotesResponse{
+		Notes:    noteMetas,
+		Total:    int64(len(metas)),
+		Page:     req.Page,
+		PageSize: req.PageSize,
+	}, nil
+}
+
+func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*note.GetNoteResponse, error) {
+	handler := NewNoteHandler(req.Type)
+	if handler == nil {
+		return nil, fmt.Errorf("invalid note type, got %s", req.Type)
+	}
+
+	resp, err := handler.GetNote(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }

@@ -7,7 +7,6 @@ package note;
 option go_package = "/note";
 
 import "api.proto";
-import "markdown_note.proto";
 import "google/protobuf/timestamp.proto";
 
 message NoteMeta {
@@ -37,11 +36,6 @@ message GetNoteRequest {
 }
 
 message GetNoteResponse {
-    string id = 1;
-    string title = 2;
-    string type = 3;
-    string content = 4;
-    repeated string tags = 5;
 }
 
 message UpdateNoteRequest {
@@ -85,16 +79,16 @@ message GetSharedNoteResponse {
 }
 
 message ListNotesRequest {
-    int32 page = 1;
-    int32 page_size = 2;
+    int64 page = 1;
+    int64 page_size = 2;
     string tag = 3;
 }
 
 message ListNotesResponse {
     repeated NoteMeta notes = 1;
-    int32 total = 2;
-    int32 page = 3;
-    int32 page_size = 4;
+    int64 total = 2;
+    int64 page = 3;
+    int64 page_size = 4;
 }
 
 message GetNoteMetaRequest {

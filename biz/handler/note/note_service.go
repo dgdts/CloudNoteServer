@@ -7,36 +7,15 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	"github.com/dgdts/UniversalServer/biz/biz_context"
 	"github.com/dgdts/UniversalServer/biz/model/note"
 	noteBiz "github.com/dgdts/UniversalServer/biz/note"
-	"github.com/dgdts/UniversalServer/biz/note/model"
+	"github.com/dgdts/UniversalServer/internal/response"
 )
 
 // CreateNote .
 // @router /api/v1/notes [POST]
 func CreateNote(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req model.Node
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	bizContext, err := biz_context.NewBizContext(ctx, c)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp, err := noteBiz.CreateNote(bizContext, &req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	c.JSON(consts.StatusOK, resp)
+	response.JSON(ctx, c, noteBiz.CreateNote)
 }
 
 // GetNote .
@@ -90,17 +69,7 @@ func DeleteNote(ctx context.Context, c *app.RequestContext) {
 // ListNotes .
 // @router /api/v1/notes [GET]
 func ListNotes(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req note.ListNotesRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(note.ListNotesResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	response.JSON(ctx, c, noteBiz.ListNotes)
 }
 
 // GetNoteMeta .
