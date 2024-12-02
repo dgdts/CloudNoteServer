@@ -80,3 +80,8 @@ func _getsharednoteMw() []app.HandlerFunc {
 	// your code...
 	return nil
 }
+
+func _noteMw() []app.HandlerFunc {
+	// your code...
+	return nil
+}

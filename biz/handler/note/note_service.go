@@ -13,41 +13,21 @@ import (
 )
 
 // CreateNote .
-// @router /api/v1/notes [POST]
+// @router /api/v1/note [POST]
 func CreateNote(ctx context.Context, c *app.RequestContext) {
 	response.JSON(ctx, c, noteBiz.CreateNote)
 }
 
 // GetNote .
-// @router /api/v1/notes/{id} [GET]
+// @router /api/v1/note [GET]
 func GetNote(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req note.GetNoteRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(note.GetNoteResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	response.JSON(ctx, c, noteBiz.GetNote)
 }
 
 // UpdateNote .
 // @router /api/v1/notes/{id} [PUT]
 func UpdateNote(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req note.UpdateNoteRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(note.UpdateNoteResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	response.JSON(ctx, c, noteBiz.UpdateNote)
 }
 
 // DeleteNote .

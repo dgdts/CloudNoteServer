@@ -2,6 +2,7 @@ package note
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/dgdts/UniversalServer/biz/biz_context"
 	"github.com/dgdts/UniversalServer/biz/model/note"
@@ -12,6 +13,15 @@ import (
 	"github.com/dgdts/UniversalServer/pkg/global_id"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
+
+func NewNoteHandler(noteType string) types.NoteHandler {
+	switch noteType {
+	case types.NoteTypeMarkdown:
+		return &markdown_note.MarkdownNoteHandler{}
+	default:
+		return nil
+	}
+}
 
 func CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteResponse, error) {
 	handler := NewNoteHandler(req.Type)
@@ -40,15 +50,6 @@ func CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteR
 		return nil, err
 	}
 	return resp, nil
-}
-
-func NewNoteHandler(noteType string) types.NoteHandler {
-	switch noteType {
-	case types.NoteTypeMarkdown:
-		return &markdown_note.MarkdownNoteHandler{}
-	default:
-		return nil
-	}
 }
 
 func ListNotes(ctx *biz_context.BizContext, req *note.ListNotesRequest) (*note.ListNotesResponse, error) {
@@ -82,7 +83,7 @@ func ListNotes(ctx *biz_context.BizContext, req *note.ListNotesRequest) (*note.L
 	}, nil
 }
 
-func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*note.GetNoteResponse, error) {
+func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node, error) {
 	handler := NewNoteHandler(req.Type)
 	if handler == nil {
 		return nil, fmt.Errorf("invalid note type, got %s", req.Type)
@@ -92,6 +93,52 @@ func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*note.GetNo
 	if err != nil {
 		return nil, err
 	}
+
+	return resp, nil
+}
+
+func validateUpdateNoteRequest(ctx *biz_context.BizContext, req *model.UpdateNode) (int64, error) {
+	if req.ID == "" {
+		return 0, fmt.Errorf("note id is required")
+	}
+
+	meta, err := note_meta.GetNoteMetaByNoteIDAndUserID(ctx, req.ID, ctx.UserID)
+	if err != nil {
+		return 0, err
+	}
+	if meta.Version != req.Version {
+		return 0, fmt.Errorf("version mismatch, got %d", req.Version)
+	}
+
+	meta.Version++
+	meta.UpdatedAt = time.Now()
+	meta.Tags = req.Tags
+	meta.Title = req.Title
+
+	err = note_meta.UpdateNoteMeta(ctx, meta)
+	if err != nil {
+		return 0, err
+	}
+
+	return meta.Version, nil
+}
+
+func UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNode) (*note.UpdateNoteResponse, error) {
+	version, err := validateUpdateNoteRequest(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	handler := NewNoteHandler(req.Type)
+	if handler == nil {
+		return nil, fmt.Errorf("invalid note type, got %s", req.Type)
+	}
+	resp, err := handler.UpdateNote(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	resp.Version = version
 
 	return resp, nil
 }

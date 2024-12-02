@@ -13,30 +13,6 @@ type result interface {
 	Error() error
 }
 
-// errorResult
-var _ result = (*errorResult)(nil)
-
-type errorResult struct {
-	err error
-}
-
-func (er *errorResult) Error() error {
-	return er.err
-}
-
-func (er *errorResult) Read(obj interface{}) error {
-	return er.err
-}
-
-func newErrorResult(err error) result {
-	return &errorResult{
-		err: err,
-	}
-}
-
-var ErrParamMustPairs = errors.New("fieldValues must be even")
-var pairErrResult = newErrorResult(ErrParamMustPairs)
-
 // insertOneResult
 var _ result = (*insertOneResult)(nil)
 
@@ -125,3 +101,66 @@ func newSingleResult(result *mongo.SingleResult) result {
 		result: result,
 	}
 }
+
+// updateResultInterface
+type updateResultInterface interface {
+	result
+	Affected() int64
+}
+
+// updateResult
+var _ updateResultInterface = (*updateResult)(nil)
+
+type updateResult struct {
+	result *mongo.UpdateResult
+}
+
+func (ur *updateResult) Error() error {
+	return nil
+}
+
+func (ur *updateResult) Read(obj interface{}) error {
+	d, err := json.Marshal(ur.result.ModifiedCount)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(d, ur.result)
+}
+
+func newUpdateResult(result *mongo.UpdateResult) updateResultInterface {
+	return &updateResult{
+		result: result,
+	}
+}
+
+func (ur *updateResult) Affected() int64 {
+	return ur.result.ModifiedCount + ur.result.UpsertedCount
+}
+
+// errorResult
+var _ updateResultInterface = (*errorResult)(nil)
+
+type errorResult struct {
+	err error
+}
+
+func (er *errorResult) Error() error {
+	return er.err
+}
+
+func (er *errorResult) Read(obj interface{}) error {
+	return er.err
+}
+
+func (er *errorResult) Affected() int64 {
+	return 0
+}
+
+func newErrorResult(err error) updateResultInterface {
+	return &errorResult{
+		err: err,
+	}
+}
+
+var ErrParamMustPairs = errors.New("fieldValues must be even")
+var pairErrResult = newErrorResult(ErrParamMustPairs)

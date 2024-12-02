@@ -21,22 +21,15 @@ func Register(r *server.Hertz) {
 		_api := root.Group("/api", _apiMw()...)
 		{
 			_v1 := _api.Group("/v1", _v1Mw()...)
+			_v1.DELETE("/note", append(_deletenoteMw(), note.DeleteNote)...)
+			_note := _v1.Group("/note", _noteMw()...)
+			_note.GET("/meta", append(_getnotemetaMw(), note.GetNoteMeta)...)
+			_note.POST("/share", append(_sharenoteMw(), note.ShareNote)...)
+			_note.GET("/shared", append(_getsharednoteMw(), note.GetSharedNote)...)
+			_v1.GET("/note", append(_getnoteMw(), note.GetNote)...)
+			_v1.POST("/note", append(_createnoteMw(), note.CreateNote)...)
+			_v1.PUT("/note", append(_updatenoteMw(), note.UpdateNote)...)
 			_v1.GET("/notes", append(_listnotesMw(), note.ListNotes)...)
-			_notes := _v1.Group("/notes", _notesMw()...)
-			{
-				__7bid_7d := _notes.Group("/{id}", __7bid_7dMw()...)
-				__7bid_7d.GET("/meta", append(_getnotemetaMw(), note.GetNoteMeta)...)
-				__7bid_7d.POST("/share", append(_sharenoteMw(), note.ShareNote)...)
-			}
-			_v1.POST("/notes", append(_createnoteMw(), note.CreateNote)...)
-			_notes0 := _v1.Group("/notes", _notes0Mw()...)
-			_notes0.DELETE("/{id}", append(_deletenoteMw(), note.DeleteNote)...)
-			_notes0.GET("/{id}", append(_getnoteMw(), note.GetNote)...)
-			_notes0.PUT("/{id}", append(_updatenoteMw(), note.UpdateNote)...)
-			{
-				_shared := _v1.Group("/shared", _sharedMw()...)
-				_shared.GET("/{share_token}", append(_getsharednoteMw(), note.GetSharedNote)...)
-			}
 		}
 	}
 }

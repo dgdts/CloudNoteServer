@@ -48,12 +48,38 @@ func (n *MarkdownNoteHandler) CreateNote(ctx *biz_context.BizContext, req *model
 	return resp, nil
 }
 
-func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*note.GetNoteResponse, error) {
-	return nil, nil
+func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node, error) {
+	markdownNote, err := GetMarkdownNoteData(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	noteContent, err := json.Marshal(markdownNote.Content)
+	if err != nil {
+		return nil, err
+	}
+
+	ret := &model.Node{
+		Type: req.Type,
+		Note: noteContent,
+	}
+
+	return ret, nil
 }
 
-func (n *MarkdownNoteHandler) UpdateNote(ctx *biz_context.BizContext, req *note.UpdateNoteRequest) (*note.UpdateNoteResponse, error) {
-	return nil, nil
+func (n *MarkdownNoteHandler) UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNode) (*note.UpdateNoteResponse, error) {
+	markdownNote, err := validateAndParseNote(&req.Node)
+	if err != nil {
+		return nil, err
+	}
+
+	markdownNote.ID = req.ID
+	err = UpdateMarkdownNoteData(ctx, req.ID, markdownNote)
+	if err != nil {
+		return nil, err
+	}
+
+	return &note.UpdateNoteResponse{}, nil
 }
 
 func (n *MarkdownNoteHandler) DeleteNote(ctx *biz_context.BizContext, req *note.DeleteNoteRequest) (*note.DeleteNoteResponse, error) {

@@ -8,8 +8,10 @@ import (
 )
 
 const (
+	NoteMetaIDField        = "_id"
 	NoteMetaUserIDField    = "user_id"
 	NoteMetaCreatedAtField = "created_at"
+	NoteMetaNoteIDField    = "note_id"
 )
 
 type NoteMeta struct {
@@ -30,6 +32,22 @@ const NoteMetaCollection = "note_meta"
 
 func InsertNoteMeta(ctx *biz_context.BizContext, noteMeta *NoteMeta) error {
 	r := mongo.Inserter(ctx.GlobalCollection(NoteMetaCollection)).Insert(ctx, noteMeta)
+	return r.Error()
+}
+
+func GetNoteMetaByNoteIDAndUserID(ctx *biz_context.BizContext, noteID string, userID string) (*NoteMeta, error) {
+	r := mongo.Finder(ctx.GlobalCollection(NoteMetaCollection)).FindOne(ctx, NoteMetaNoteIDField, noteID, NoteMetaUserIDField, userID)
+	if r.Error() != nil {
+		return nil, r.Error()
+	}
+
+	var noteMeta NoteMeta
+	err := r.Read(&noteMeta)
+	return &noteMeta, err
+}
+
+func UpdateNoteMeta(ctx *biz_context.BizContext, noteMeta *NoteMeta) error {
+	r := mongo.Updater(ctx.GlobalCollection(NoteMetaCollection)).WithEqFilter(NoteMetaIDField, noteMeta.ID).ReplaceOne(ctx, noteMeta)
 	return r.Error()
 }
 

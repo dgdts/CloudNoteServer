@@ -39,15 +39,10 @@ message GetNoteResponse {
 }
 
 message UpdateNoteRequest {
-    string id = 1;
-    string title = 2;
-    string content = 3;
-    repeated string tags = 4;
 }
 
 message UpdateNoteResponse {
-    bool success = 1;
-    google.protobuf.Timestamp updated_at = 2;
+    int64 version = 1;
 }
 
 message DeleteNoteRequest {
@@ -101,19 +96,19 @@ message GetNoteMetaResponse {
 
 service NoteService {
     rpc CreateNote (CreateNoteRequest) returns (CreateNoteResponse) {
-        option (api.post) = "/api/v1/notes";
+        option (api.post) = "/api/v1/note";
     }
     
     rpc GetNote (GetNoteRequest) returns (GetNoteResponse) {
-        option (api.get) = "/api/v1/notes/{id}";
+        option (api.get) = "/api/v1/note";
     }
     
     rpc UpdateNote (UpdateNoteRequest) returns (UpdateNoteResponse) {
-        option (api.put) = "/api/v1/notes/{id}";
+        option (api.put) = "/api/v1/note";
     }
     
     rpc DeleteNote (DeleteNoteRequest) returns (DeleteNoteResponse) {
-        option (api.delete) = "/api/v1/notes/{id}";
+        option (api.delete) = "/api/v1/note";
     }
     
     rpc ListNotes (ListNotesRequest) returns (ListNotesResponse) {
@@ -121,15 +116,14 @@ service NoteService {
     }
 
     rpc GetNoteMeta (GetNoteMetaRequest) returns (GetNoteMetaResponse) {
-        option (api.get) = "/api/v1/notes/{id}/meta";
+        option (api.get) = "/api/v1/note/meta";
     }
     
-    // 分享相关
     rpc ShareNote (ShareNoteRequest) returns (ShareNoteResponse) {
-        option (api.post) = "/api/v1/notes/{id}/share";
+        option (api.post) = "/api/v1/note/share";
     }
     
     rpc GetSharedNote (GetSharedNoteRequest) returns (GetNoteResponse) {
-        option (api.get) = "/api/v1/shared/{share_token}";
+        option (api.get) = "/api/v1/note/shared";
     }
 }
