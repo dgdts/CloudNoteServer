@@ -38,7 +38,15 @@ func initMiddleware(s *server.Hertz, config *config.GlobalConfig) {
 	// cors
 	defaultCorsConfig := cors.DefaultConfig()
 	defaultCorsConfig.ExposeHeaders = append(defaultCorsConfig.ExposeHeaders, "Content-Disposition")
+	defaultCorsConfig.AllowHeaders = append(defaultCorsConfig.AllowHeaders,
+		"Authorization",
+		"Content-Type",
+		"Origin",
+		"Accept",
+		"X-Requested-With",
+	)
 	defaultCorsConfig.AllowAllOrigins = true
+	defaultCorsConfig.AllowCredentials = true
 	s.Use(cors.New(defaultCorsConfig))
 
 	// custom middleware
