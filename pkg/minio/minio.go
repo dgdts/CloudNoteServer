@@ -153,3 +153,15 @@ func ListFiles(prefix string) ([]string, error) {
 
 	return files, nil
 }
+
+func GetUploadPresignedURL(objectName string, expiry time.Duration) (*url.URL, error) {
+	if instance == nil {
+		return nil, fmt.Errorf("MinIO client not initialized")
+	}
+	ctx := context.Background()
+	presignedURL, err := instance.client.PresignedPutObject(ctx, instance.bucketName, objectName, expiry)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get upload presigned URL: %w", err)
+	}
+	return presignedURL, nil
+}

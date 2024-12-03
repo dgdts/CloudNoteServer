@@ -23,7 +23,7 @@ func NewNoteHandler(noteType string) types.NoteHandler {
 	}
 }
 
-func CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteResponse, error) {
+func CreateNote(ctx *biz_context.BizContext, req *model.Note) (*note.CreateNoteResponse, error) {
 	handler := NewNoteHandler(req.Type)
 	if handler == nil {
 		return nil, fmt.Errorf("invalid note type, got %s", req.Type)
@@ -83,7 +83,7 @@ func ListNotes(ctx *biz_context.BizContext, req *note.ListNotesRequest) (*note.L
 	}, nil
 }
 
-func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node, error) {
+func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Note, error) {
 	handler := NewNoteHandler(req.Type)
 	if handler == nil {
 		return nil, fmt.Errorf("invalid note type, got %s", req.Type)
@@ -97,7 +97,7 @@ func GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node
 	return resp, nil
 }
 
-func validateUpdateNoteRequest(ctx *biz_context.BizContext, req *model.UpdateNode) (int64, error) {
+func validateUpdateNoteRequest(ctx *biz_context.BizContext, req *model.UpdateNote) (int64, error) {
 	if req.ID == "" {
 		return 0, fmt.Errorf("note id is required")
 	}
@@ -123,7 +123,7 @@ func validateUpdateNoteRequest(ctx *biz_context.BizContext, req *model.UpdateNod
 	return meta.Version, nil
 }
 
-func UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNode) (*note.UpdateNoteResponse, error) {
+func UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNote) (*note.UpdateNoteResponse, error) {
 	version, err := validateUpdateNoteRequest(ctx, req)
 	if err != nil {
 		return nil, err

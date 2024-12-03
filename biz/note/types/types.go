@@ -11,8 +11,8 @@ const (
 )
 
 type NoteHandler interface {
-	CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteResponse, error)
-	GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node, error)
-	UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNode) (*note.UpdateNoteResponse, error)
+	CreateNote(ctx *biz_context.BizContext, req *model.Note) (*note.CreateNoteResponse, error)
+	GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Note, error)
+	UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNote) (*note.UpdateNoteResponse, error)
 	DeleteNote(ctx *biz_context.BizContext, req *note.DeleteNoteRequest) (*note.DeleteNoteResponse, error)
 }

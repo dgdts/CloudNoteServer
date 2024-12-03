@@ -17,7 +17,7 @@ var _ types.NoteHandler = (*MarkdownNoteHandler)(nil)
 type MarkdownNoteHandler struct {
 }
 
-func validateAndParseNote(req *model.Node) (*MarkdownNoteData, error) {
+func validateAndParseNote(req *model.Note) (*MarkdownNoteData, error) {
 	var markdownNote MarkdownNoteData
 	err := json.Unmarshal(req.Note, &markdownNote)
 	if err != nil {
@@ -27,7 +27,7 @@ func validateAndParseNote(req *model.Node) (*MarkdownNoteData, error) {
 	return &markdownNote, nil
 }
 
-func (n *MarkdownNoteHandler) CreateNote(ctx *biz_context.BizContext, req *model.Node) (*note.CreateNoteResponse, error) {
+func (n *MarkdownNoteHandler) CreateNote(ctx *biz_context.BizContext, req *model.Note) (*note.CreateNoteResponse, error) {
 	markdownNote, err := validateAndParseNote(req)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (n *MarkdownNoteHandler) CreateNote(ctx *biz_context.BizContext, req *model
 	return resp, nil
 }
 
-func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Node, error) {
+func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.GetNoteRequest) (*model.Note, error) {
 	markdownNote, err := GetMarkdownNoteData(ctx, req.Id)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.Get
 		return nil, err
 	}
 
-	ret := &model.Node{
+	ret := &model.Note{
 		Type: req.Type,
 		Note: noteContent,
 	}
@@ -67,8 +67,8 @@ func (n *MarkdownNoteHandler) GetNote(ctx *biz_context.BizContext, req *note.Get
 	return ret, nil
 }
 
-func (n *MarkdownNoteHandler) UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNode) (*note.UpdateNoteResponse, error) {
-	markdownNote, err := validateAndParseNote(&req.Node)
+func (n *MarkdownNoteHandler) UpdateNote(ctx *biz_context.BizContext, req *model.UpdateNote) (*note.UpdateNoteResponse, error) {
+	markdownNote, err := validateAndParseNote(&req.Note)
 	if err != nil {
 		return nil, err
 	}
