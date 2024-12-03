@@ -6,22 +6,12 @@ import (
 	"context"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	binary "github.com/dgdts/UniversalServer/biz/model/binary"
+	binaryBiz "github.com/dgdts/UniversalServer/biz/binary"
+	"github.com/dgdts/UniversalServer/internal/response"
 )
 
 // GetUploadToken .
 // @router /api/v1/resources/upload/token [POST]
 func GetUploadToken(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req binary.GetUploadTokenRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(binary.GetUploadTokenResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	response.JSON(ctx, c, binaryBiz.GetUploadToken)
 }
