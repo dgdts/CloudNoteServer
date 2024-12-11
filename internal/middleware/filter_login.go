@@ -10,16 +10,25 @@ import (
 	"github.com/dgdts/UniversalServer/internal/response"
 )
 
+const (
+	FilterLoginName = "filter_login"
+)
+
 type FilterLogin struct {
 	excludePaths []string
 }
 
 var _ Filter = (*FilterLogin)(nil)
 
+func (f *FilterLogin) Name() string {
+	return FilterLoginName
+}
+
 func (f *FilterLogin) Init() {
 	excludePaths := []string{
 		"/ping",
 		"/api/v1/auth/login",
+		"/api/v1/auth/register",
 	}
 
 	f.excludePaths = excludePaths
@@ -59,8 +68,8 @@ func (f *FilterLogin) doFilter(ctx context.Context, c *app.RequestContext) error
 		return err
 	}
 
-	c.Set("user_id", claims["user_id"])
-	c.Set("user_name", claims["user_name"])
+	c.Set(UserNameKey, claims[UserNameKey])
+	c.Set(UserIDKey, claims[UserIDKey])
 
 	return nil
 }

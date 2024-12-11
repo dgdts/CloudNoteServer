@@ -9,7 +9,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/dgdts/UniversalServer/internal/middleware"
 	"github.com/dgdts/UniversalServer/pkg/config"
-	"github.com/dgdts/UniversalServer/pkg/utils"
 	"github.com/hertz-contrib/cors"
 	"github.com/hertz-contrib/gzip"
 	"github.com/hertz-contrib/logger/accesslog"
@@ -55,10 +54,6 @@ func initMiddleware(s *server.Hertz, config *config.GlobalConfig) {
 
 // initCustomMiddleware used to check the http header for business logic
 func initCustomMiddleware(s *server.Hertz) {
-	if utils.IsDevEnv() {
-		return
-	}
-
 	filters := middleware.GetAllFilters()
 
 	if len(filters) == 0 {
@@ -71,6 +66,6 @@ func initCustomMiddleware(s *server.Hertz) {
 
 	for _, filter := range filters {
 		s.Use(filter.DoFilter)
-		hlog.CtxInfof(context.Background(), "init filter: %v", filter)
+		hlog.CtxInfof(context.Background(), "init filter: %v", filter.Name())
 	}
 }

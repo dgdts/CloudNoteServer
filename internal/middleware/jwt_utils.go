@@ -10,6 +10,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	"github.com/dgdts/UniversalServer/biz/biz_context"
+	"github.com/dgdts/UniversalServer/pkg/utils"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -17,6 +18,22 @@ const (
 	TokenExpireTime = 24 * time.Hour
 	Secret          = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1Ni10"
 )
+
+const (
+	UserNameKey = "user_name"
+	UserIDKey   = "user_id"
+)
+
+var userTokenMap = utils.New[string, interface{}]()
+
+func SetBlockedToken(token string, ttl time.Duration) {
+	userTokenMap.Set(token, nil, ttl)
+}
+
+func IsBlockedToken(token string) bool {
+	_, ok := userTokenMap.Get(token)
+	return ok
+}
 
 func getBizContext(c *app.RequestContext) *biz_context.BizContext {
 	if bizCtx, ok := c.Get("biz_context"); ok {
@@ -48,14 +65,14 @@ func getAuthFromJWTToken(token string) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	userID, ok := claims["user_id"]
+	userID, ok := claims[UserIDKey]
 	if !ok || userID == "" {
 		return nil, errors.New("user_id is empty")
 	}
 
 	ret := map[string]interface{}{
-		"user_id":   claims["user_id"],
-		"user_name": claims["user_name"],
+		UserNameKey: claims[UserNameKey],
+		UserIDKey:   claims[UserIDKey],
 	}
 
 	return ret, nil
@@ -89,4 +106,11 @@ func validateJWTExpire(token string) bool {
 	})
 
 	return err == nil && claims.VerifyExpiresAt(time.Now().Unix(), true)
+}
+
+func GenerateToken(claims jwt.MapClaims) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token.Header = claims
+	token.Claims.(jwt.MapClaims)["exp"] = time.Now().Add(TokenExpireTime).Unix()
+	return token.SignedString([]byte(Secret))
 }

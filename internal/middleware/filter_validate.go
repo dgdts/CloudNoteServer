@@ -10,15 +10,25 @@ import (
 	"github.com/dgdts/UniversalServer/internal/response"
 )
 
+const (
+	FilterValidateName = "filter_validate"
+)
+
 type FilterValidate struct {
 	excludePaths []string
 }
 
 var _ Filter = (*FilterValidate)(nil)
 
+func (f *FilterValidate) Name() string {
+	return FilterValidateName
+}
+
 func (f *FilterValidate) Init() {
 	excludePaths := []string{
 		"/ping",
+		"/api/v1/auth/login",
+		"/api/v1/auth/register",
 	}
 
 	f.excludePaths = excludePaths

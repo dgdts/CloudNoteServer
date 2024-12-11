@@ -10,6 +10,7 @@ type Filter interface {
 	Init()
 	GetOrder() int
 	DoFilter(ctx context.Context, c *app.RequestContext)
+	Name() string
 }
 
 func GetAllFilters() []Filter {

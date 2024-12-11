@@ -1,10 +1,8 @@
-// idl/user/user.proto
-
 syntax = "proto3";
 
-package user;
+package auth;
 
-option go_package = "/user";
+option go_package = "/auth";
 
 import "api.proto";
 import "google/protobuf/timestamp.proto";
@@ -53,6 +51,16 @@ message LogoutResponse {
 
 message GetCurrentUserRequest {}
 
+// 注册请求
+message RegisterRequest {
+    string username = 1[(api.vd) = "len($) > 0"];
+    string email = 2[(api.vd) = "len($) > 0"];
+    string password = 3[(api.vd) = "len($) > 0"];
+}
+
+// 注册响应
+message RegisterResponse {}
+
 service UserService {
     // 登录
     rpc Login(LoginRequest) returns (LoginResponse) {
@@ -72,5 +80,10 @@ service UserService {
     // 获取当前用户信息
     rpc GetCurrentUser(GetCurrentUserRequest) returns (User) {
         option (api.get) = "/api/v1/users/me";
+    }
+
+    // 注册
+    rpc Register(RegisterRequest) returns (RegisterResponse) {
+        option (api.post) = "/api/v1/auth/register";
     }
 }

@@ -38,10 +38,5 @@ func CountMarkdownNoteData(ctx *biz_context.BizContext, id string) (int64, error
 
 func UpdateMarkdownNoteData(ctx *biz_context.BizContext, id string, data *MarkdownNoteData) error {
 	r := mongo.Updater(ctx.GlobalCollection(MarkdownNoteCollection)).WithEqFilter(MarkdownNoteIDField, id).ReplaceOne(ctx, data)
-
-	if r.Error() != nil {
-		return r.Error()
-	}
-
-	return nil
+	return r.Error()
 }

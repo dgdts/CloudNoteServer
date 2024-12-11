@@ -10,15 +10,25 @@ import (
 	"github.com/dgdts/UniversalServer/internal/response"
 )
 
+const (
+	FilterResourceName = "filter_resource"
+)
+
 type FilterResource struct {
 	excludePaths []string
 }
 
 var _ Filter = &FilterResource{}
 
+func (f *FilterResource) Name() string {
+	return FilterResourceName
+}
+
 func (f *FilterResource) Init() {
 	excludePaths := []string{
 		"/ping",
+		"/api/v1/auth/login",
+		"/api/v1/auth/register",
 	}
 	f.excludePaths = excludePaths
 
