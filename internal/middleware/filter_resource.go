@@ -35,7 +35,7 @@ func (f *FilterResource) Init() {
 }
 
 func (f *FilterResource) GetOrder() int {
-	return 0
+	return 10
 }
 
 func (f *FilterResource) DoFilter(ctx context.Context, c *app.RequestContext) {

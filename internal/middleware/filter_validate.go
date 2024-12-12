@@ -35,7 +35,7 @@ func (f *FilterValidate) Init() {
 }
 
 func (f *FilterValidate) GetOrder() int {
-	return 10
+	return 20
 }
 
 func (f *FilterValidate) DoFilter(ctx context.Context, c *app.RequestContext) {

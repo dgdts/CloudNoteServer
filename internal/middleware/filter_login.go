@@ -35,7 +35,7 @@ func (f *FilterLogin) Init() {
 }
 
 func (f *FilterLogin) GetOrder() int {
-	return 20
+	return 0
 }
 
 func (f *FilterLogin) DoFilter(ctx context.Context, c *app.RequestContext) {

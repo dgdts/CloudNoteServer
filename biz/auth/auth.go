@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	biz_error "github.com/dgdts/UniversalServer/biz/error"
 	"github.com/dgdts/UniversalServer/biz/model/auth"
 	"github.com/dgdts/UniversalServer/internal/middleware"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
@@ -46,12 +47,12 @@ func Register(ctx context.Context, req *auth.RegisterRequest) (*auth.RegisterRes
 func Login(ctx context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
 	user, err := GetUserByEmail(ctx, req.Email)
 	if err != nil {
-		return nil, err
+		return nil, biz_error.ErrUserNotExistOrPassword
 	}
 
 	err = VerifyPassword(&user.Password, req.Password)
 	if err != nil {
-		return nil, err
+		return nil, biz_error.ErrUserNotExistOrPassword
 	}
 
 	token, err := middleware.GenerateToken(jwt.MapClaims{
@@ -60,7 +61,7 @@ func Login(ctx context.Context, req *auth.LoginRequest) (*auth.LoginResponse, er
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, biz_error.ErrTokenInvalid
 	}
 
 	return &auth.LoginResponse{

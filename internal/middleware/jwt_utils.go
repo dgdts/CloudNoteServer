@@ -110,7 +110,6 @@ func validateJWTExpire(token string) bool {
 
 func GenerateToken(claims jwt.MapClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token.Header = claims
 	token.Claims.(jwt.MapClaims)["exp"] = time.Now().Add(TokenExpireTime).Unix()
 	return token.SignedString([]byte(Secret))
 }
