@@ -16,8 +16,8 @@ message NoteMeta {
     string type = 4;
     string note_id = 5;
     int64 version = 6;
-    bool is_public = 7;
-    string share_token = 8;
+    bool is_share = 7;
+    string share_id = 8;
     repeated string tags = 9;
     google.protobuf.Timestamp created_at = 10;
     google.protobuf.Timestamp updated_at = 11;
@@ -54,23 +54,13 @@ message DeleteNoteResponse {
 }
 
 message ShareNoteRequest {
-    string id = 1;
+    string note_id = 1[(api.vd) = "len($) > 0"];
+    string share_type = 2[(api.vd) = "len($) > 0"];
+    string status = 3;
 }
 
 message ShareNoteResponse {
-    string share_token = 1;
-    string share_url = 2;
-}
-
-message GetSharedNoteRequest {
-    string share_token = 1;
-}
-
-message GetSharedNoteResponse {
-    string id = 1;
-    string title = 2;
-    string type = 3;
-    string content = 4;
+    string share_url = 1;
 }
 
 message ListNotesRequest {
@@ -98,19 +88,19 @@ service NoteService {
     rpc CreateNote (CreateNoteRequest) returns (CreateNoteResponse) {
         option (api.post) = "/api/v1/note";
     }
-    
+
     rpc GetNote (GetNoteRequest) returns (GetNoteResponse) {
         option (api.get) = "/api/v1/note";
     }
-    
+
     rpc UpdateNote (UpdateNoteRequest) returns (UpdateNoteResponse) {
         option (api.put) = "/api/v1/note";
     }
-    
+
     rpc DeleteNote (DeleteNoteRequest) returns (DeleteNoteResponse) {
         option (api.delete) = "/api/v1/note";
     }
-    
+
     rpc ListNotes (ListNotesRequest) returns (ListNotesResponse) {
         option (api.get) = "/api/v1/notes";
     }
@@ -118,12 +108,8 @@ service NoteService {
     rpc GetNoteMeta (GetNoteMetaRequest) returns (GetNoteMetaResponse) {
         option (api.get) = "/api/v1/note/meta";
     }
-    
-    rpc ShareNote (ShareNoteRequest) returns (ShareNoteResponse) {
+
+    rpc CreateOrUpdateShareNote (ShareNoteRequest) returns (ShareNoteResponse) {
         option (api.post) = "/api/v1/note/share";
-    }
-    
-    rpc GetSharedNote (GetSharedNoteRequest) returns (GetNoteResponse) {
-        option (api.get) = "/api/v1/note/shared";
     }
 }

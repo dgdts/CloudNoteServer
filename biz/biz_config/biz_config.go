@@ -10,6 +10,7 @@ type BizConfig struct {
 	AppID                 string `yaml:"app_id"`
 	InitRedisCacheTimeout int    `yaml:"init_redis_cache_timeout"`
 	BusinessID            int    `yaml:"business_id"`
+	ShareDomain           string `yaml:"share_domain"`
 	// OSS Platform Config
 	// Sop Platform Config
 }

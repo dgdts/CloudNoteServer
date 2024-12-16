@@ -68,34 +68,8 @@ func GetNoteMeta(ctx context.Context, c *app.RequestContext) {
 	c.JSON(consts.StatusOK, resp)
 }
 
-// ShareNote .
-// @router /api/v1/notes/{id}/share [POST]
-func ShareNote(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req note.ShareNoteRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(note.ShareNoteResponse)
-
-	c.JSON(consts.StatusOK, resp)
-}
-
-// GetSharedNote .
-// @router /api/v1/shared/{share_token} [GET]
-func GetSharedNote(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req note.GetSharedNoteRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
-	}
-
-	resp := new(note.GetNoteResponse)
-
-	c.JSON(consts.StatusOK, resp)
+// CreateOrUpdateShareNote .
+// @router /api/v1/note/share [POST]
+func CreateOrUpdateShareNote(ctx context.Context, c *app.RequestContext) {
+	response.JSON(ctx, c, noteBiz.CreateOrUpdateShareNote)
 }
