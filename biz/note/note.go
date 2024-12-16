@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dgdts/UniversalServer/biz/biz_config"
 	"github.com/dgdts/UniversalServer/biz/biz_context"
 	"github.com/dgdts/UniversalServer/biz/model/note"
 	"github.com/dgdts/UniversalServer/biz/note/markdown_note"
@@ -13,6 +12,7 @@ import (
 	"github.com/dgdts/UniversalServer/biz/note/note_meta"
 	"github.com/dgdts/UniversalServer/biz/note/types"
 	"github.com/dgdts/UniversalServer/biz/share"
+	"github.com/dgdts/UniversalServer/pkg/config"
 	"github.com/dgdts/UniversalServer/pkg/global_id"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -179,7 +179,7 @@ func CreateShareNote(ctx *biz_context.BizContext, noteMeta *note_meta.NoteMeta, 
 		UpdatedAt: time.Now(),
 	}
 
-	shareNote.ShareURL = fmt.Sprintf("https://%s/share/%s", biz_config.GetBizConfigInstance().ShareDomain, shareNote.ID)
+	shareNote.ShareURL = fmt.Sprintf("http://%s/share/%s", config.GetGlobalStaticConfig().BizConfig.ShareDomain, shareNote.ID)
 
 	err := share.InsertShareNote(ctx, shareNote)
 	if err != nil {

@@ -15,7 +15,6 @@ type ShareNote struct {
 	ShareURL  string             `bson:"share_url"`
 	ViewCount int                `bson:"view_count"`
 	Status    ShareNoteStatus    `bson:"status"`
-	ExpireAt  time.Time          `bson:"expire_at"`
 	CreatedAt time.Time          `bson:"created_at"`
 	UpdatedAt time.Time          `bson:"updated_at"`
 }
@@ -35,12 +34,12 @@ func InsertShareNote(ctx *biz_context.BizContext, shareNote *ShareNote) error {
 }
 
 func UpdateShareNote(ctx *biz_context.BizContext, shareNote *ShareNote) error {
-	r := mongo.Updater(ctx.GlobalCollection(ShareNoteCollection)).WithEqFilter(ShareNoteIDField, shareNote.ID).ReplaceOne(ctx, shareNote)
+	r := mongo.Updater(ctx.GlobalCollection(ShareNoteCollection)).WithEqFilter(IDField, shareNote.ID).ReplaceOne(ctx, shareNote)
 	return r.Error()
 }
 
 func GetShareNote(ctx *biz_context.BizContext, shareID string) (*ShareNote, error) {
-	r := mongo.Finder(ctx.GlobalCollection(ShareNoteCollection)).FindOne(ctx, ShareNoteIDField, shareID)
+	r := mongo.Finder(ctx.GlobalCollection(ShareNoteCollection)).FindOne(ctx, IDField, shareID)
 	if r.Error() != nil {
 		return nil, r.Error()
 	}

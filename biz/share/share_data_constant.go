@@ -6,6 +6,7 @@ const (
 )
 
 const (
+	IDField          = "_id"
 	ShareNoteIDField = "share_note_id"
 )
 

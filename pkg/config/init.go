@@ -1,18 +1,28 @@
 package config
 
-func InitConfigFromLocal(path string) (*GlobalConfig, error) {
+var (
+	GlobalStaticConfig *GlobalConfig
+)
+
+func GetGlobalStaticConfig() *GlobalConfig {
+	return GlobalStaticConfig
+}
+
+func InitConfigFromLocal(path string) error {
 	source := LocalConfigSource{}
-	return source.Load(path)
+	var err error
+	GlobalStaticConfig, err = source.Load(path)
+	return err
 }
 
-func InitConfigFromNacos(path string) (*GlobalConfig, error) {
+func InitConfigFromNacos(path string) error {
 	panic("not implemented")
 }
 
-func InitConfigFromEtcd(path string) (*GlobalConfig, error) {
+func InitConfigFromEtcd(path string) error {
 	panic("not implemented")
 }
 
-func InitConfigFromConsul(path string) (*GlobalConfig, error) {
+func InitConfigFromConsul(path string) error {
 	panic("not implemented")
 }

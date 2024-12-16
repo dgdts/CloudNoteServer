@@ -12,6 +12,15 @@ type Global struct {
 	ContainerName string `yaml:"container_name"`
 }
 
+type BizConfig struct {
+	AppID                 string `yaml:"app_id"`
+	InitRedisCacheTimeout int    `yaml:"init_redis_cache_timeout"`
+	BusinessID            int    `yaml:"business_id"`
+	ShareDomain           string `yaml:"share_domain"`
+	// OSS Platform Config
+	// Sop Platform Config
+}
+
 type Service struct {
 	Name    string `yaml:"name"`
 	Address string `yaml:"addr"`
@@ -135,6 +144,7 @@ type MongoConfig struct {
 
 type GlobalConfig struct {
 	Global     *Global                 `yaml:"global"`     // Global config
+	BizConfig  *BizConfig              `yaml:"biz_config"` // Biz config
 	Hertz      *Hertz                  `yaml:"hertz"`      // Hertz Server config
 	Log        *Log                    `yaml:"log"`        // Log config
 	Registry   *Registry               `yaml:"registry"`   // Registry center config

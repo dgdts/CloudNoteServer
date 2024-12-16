@@ -2,7 +2,6 @@ package init
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	"github.com/dgdts/UniversalServer/biz/biz_config"
 	"github.com/dgdts/UniversalServer/biz/router"
 	"github.com/dgdts/UniversalServer/pkg/config"
 	"github.com/dgdts/UniversalServer/pkg/cron"
@@ -21,13 +20,13 @@ func InitServer(config *config.GlobalConfig) *server.Hertz {
 	initMiddleware(s, config)
 
 	// 4. init biz config with nacos
-	// biz_config.GetBizConfigInstance().Init(config)
+	// config.BizConfig.Init(config)
 
 	// 5. init redis
 	// initRedis(config)
 
 	// 6. init global id generator
-	global_id.InitWithLocalMachine(uint64(biz_config.GetBizConfigInstance().BusinessID))
+	global_id.InitWithLocalMachine(uint64(config.BizConfig.BusinessID))
 
 	// 7. init mongodb
 	initMongo(config)

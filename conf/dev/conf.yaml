@@ -4,6 +4,12 @@ global:                     #全局配置
   local_ip: ${POD_IP}
   container_name: ${HOSTNAME}
 
+biz_config:
+  app_id: "universal_server"
+  business_id: 1
+  init_redis_cache_timeout: 60
+  share_domain: "localhost:9988"
+
 hertz:
   app: "ssg"
   server: "enterbuild"

@@ -19,13 +19,13 @@ func main() {
 		panic(err)
 	}
 
-	config, err := config.InitConfigFromLocal(absPath)
+	err = config.InitConfigFromLocal(absPath)
 	if err != nil {
 		panic(err)
 	}
 
 	// 2. init services according to config
-	h := global_init.InitServer(config)
+	h := global_init.InitServer(config.GetGlobalStaticConfig())
 
 	// 3. add a ping-pong handler for health check
 	h.GET("/ping", func(ctx context.Context, c *app.RequestContext) {
