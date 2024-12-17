@@ -11,6 +11,7 @@ type ShareNote struct {
 	ID        string             `bson:"_id"`
 	NoteID    string             `bson:"note_id"`
 	UserID    string             `bson:"user_id"`
+	NoteType  string             `bson:"note_type"`
 	ShareType ShareNoteShareType `bson:"share_type"`
 	ShareURL  string             `bson:"share_url"`
 	ViewCount int                `bson:"view_count"`

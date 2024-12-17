@@ -173,13 +173,14 @@ func CreateShareNote(ctx *biz_context.BizContext, noteMeta *note_meta.NoteMeta, 
 		ID:        global_id.GenerateUniqueID(),
 		NoteID:    req.NoteId,
 		UserID:    ctx.UserID,
+		NoteType:  noteMeta.Type,
 		ShareType: shareType,
 		Status:    share.ShareNoteStatusDefault,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
 
-	shareNote.ShareURL = fmt.Sprintf("http://%s/share/%s", config.GetGlobalStaticConfig().BizConfig.ShareDomain, shareNote.ID)
+	shareNote.ShareURL = generateShareNoteURL(shareNote.ID)
 
 	err := share.InsertShareNote(ctx, shareNote)
 	if err != nil {
@@ -239,4 +240,8 @@ func UpdateShareNote(ctx *biz_context.BizContext, noteMeta *note_meta.NoteMeta, 
 	return &note.ShareNoteResponse{
 		ShareUrl: shareNote.ShareURL,
 	}, nil
+}
+
+func generateShareNoteURL(shareNoteID string) string {
+	return fmt.Sprintf("http://%s/share/%s", config.GetGlobalStaticConfig().BizConfig.ShareDomain, shareNoteID)
 }

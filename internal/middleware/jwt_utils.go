@@ -24,7 +24,7 @@ const (
 	UserIDKey   = "user_id"
 )
 
-var userTokenMap = utils.New[string, interface{}]()
+var userTokenMap = utils.NewTTLMap[string, interface{}]()
 
 func SetBlockedToken(token string, ttl time.Duration) {
 	userTokenMap.Set(token, nil, ttl)

@@ -14,7 +14,7 @@ type item[V any] struct {
 	expireTime time.Time
 }
 
-func New[K comparable, V any]() *TTLMap[K, V] {
+func NewTTLMap[K comparable, V any]() *TTLMap[K, V] {
 	m := &TTLMap[K, V]{}
 	go m.cleanup()
 	return m
