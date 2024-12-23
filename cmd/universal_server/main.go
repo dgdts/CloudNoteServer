@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"flag"
+	"os"
 	"path/filepath"
 
 	"github.com/cloudwego/hertz/pkg/app"
@@ -12,9 +12,13 @@ import (
 )
 
 func main() {
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		configPath = "../../conf/dev/conf.yaml"
+	}
+
 	// 1. read and parse config
-	configFilePath := flag.String("config", "../../conf/dev/conf.yaml", "config file path")
-	absPath, err := filepath.Abs(*configFilePath)
+	absPath, err := filepath.Abs(configPath)
 	if err != nil {
 		panic(err)
 	}
