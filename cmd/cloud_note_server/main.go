@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,7 +10,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	global_init "github.com/dgdts/CloudNoteServer/init"
 	"github.com/dgdts/CloudNoteServer/pkg/config"
-	"github.com/dgdts/CloudNoteServer/pkg/utils"
 )
 
 func env() {
@@ -25,15 +23,14 @@ func env() {
 func main() {
 	env()
 
-	binPath, _ := filepath.Abs(filepath.Dir(os.Args[0]))
-	rootPath := filepath.Dir(binPath)
-	configPath := fmt.Sprintf("%s/configs/%s/conf.yaml", rootPath, os.Getenv("ENV"))
-	if utils.IsDevEnv() {
-		configPath = fmt.Sprintf("./configs/%s/conf.yaml", utils.GetEnv()) //本地临时调式，如果真正run服务，用上面一行的代码
+	workspacePath, err := os.Getwd()
+	if err != nil {
+		panic(err)
 	}
+	configPath := filepath.Join(workspacePath, "conf", os.Getenv("ENV"), "conf.yaml")
 
 	// 1. read and parse config
-	err := config.InitConfigFromLocal(configPath)
+	err = config.InitConfigFromLocal(configPath)
 
 	if err != nil {
 		panic(err)
