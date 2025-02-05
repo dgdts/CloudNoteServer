@@ -5,10 +5,10 @@ import (
 	"errors"
 	"time"
 
-	biz_error "github.com/dgdts/UniversalServer/biz/error"
-	"github.com/dgdts/UniversalServer/biz/model/auth"
-	"github.com/dgdts/UniversalServer/internal/middleware"
-	"github.com/dgdts/UniversalServer/pkg/global_id"
+	biz_error "github.com/dgdts/CloudNoteServer/biz/error"
+	"github.com/dgdts/CloudNoteServer/biz/model/auth"
+	"github.com/dgdts/CloudNoteServer/internal/middleware"
+	"github.com/dgdts/CloudNoteServer/pkg/global_id"
 	"github.com/dgrijalva/jwt-go"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )

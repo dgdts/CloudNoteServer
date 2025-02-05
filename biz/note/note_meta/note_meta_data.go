@@ -3,8 +3,8 @@ package note_meta
 import (
 	"time"
 
-	"github.com/dgdts/UniversalServer/biz/biz_context"
-	"github.com/dgdts/UniversalServer/pkg/mongo"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/pkg/mongo"
 )
 
 const (

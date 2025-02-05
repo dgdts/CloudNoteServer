@@ -9,7 +9,7 @@
 package share
 
 import (
-	_ "github.com/dgdts/UniversalServer/biz/model/api"
+	_ "github.com/dgdts/CloudNoteServer/biz/model/api"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"

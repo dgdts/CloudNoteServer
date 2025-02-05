@@ -1,8 +1,8 @@
 package init
 
 import (
-	"github.com/dgdts/UniversalServer/pkg/config"
-	"github.com/dgdts/UniversalServer/pkg/redis"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/redis"
 )
 
 func _initRedis(config *config.GlobalConfig) {

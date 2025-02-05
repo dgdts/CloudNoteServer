@@ -2,11 +2,11 @@ package init
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	"github.com/dgdts/UniversalServer/biz/router"
-	"github.com/dgdts/UniversalServer/pkg/config"
-	"github.com/dgdts/UniversalServer/pkg/cron"
-	"github.com/dgdts/UniversalServer/pkg/global_id"
-	"github.com/dgdts/UniversalServer/pkg/minio"
+	"github.com/dgdts/CloudNoteServer/biz/router"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/cron"
+	"github.com/dgdts/CloudNoteServer/pkg/global_id"
+	"github.com/dgdts/CloudNoteServer/pkg/minio"
 )
 
 func InitServer(config *config.GlobalConfig) *server.Hertz {

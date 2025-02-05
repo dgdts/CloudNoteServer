@@ -6,7 +6,7 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app/client"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/client/sd"
-	"github.com/dgdts/UniversalServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
 	"github.com/hertz-contrib/registry/nacos"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"

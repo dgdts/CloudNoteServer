@@ -1,8 +1,8 @@
 package init
 
 import (
-	"github.com/dgdts/UniversalServer/pkg/config"
-	"github.com/dgdts/UniversalServer/pkg/mongo"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/mongo"
 )
 
 func initMongo(config *config.GlobalConfig) {

@@ -1,8 +1,8 @@
 package init
 
 import (
-	"github.com/dgdts/UniversalServer/pkg/config"
-	"github.com/dgdts/UniversalServer/pkg/kafka"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/kafka"
 )
 
 func _initAndRunKafkaConsumer(config *config.GlobalConfig) {

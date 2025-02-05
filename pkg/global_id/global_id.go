@@ -3,7 +3,7 @@ package global_id
 import (
 	"sync"
 
-	"github.com/dgdts/UniversalServer/pkg/redis"
+	"github.com/dgdts/CloudNoteServer/pkg/redis"
 )
 
 var glabal_id_generator *idGenerator

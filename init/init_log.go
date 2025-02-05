@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"github.com/dgdts/UniversalServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
 	hertzzap "github.com/hertz-contrib/logger/zap"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

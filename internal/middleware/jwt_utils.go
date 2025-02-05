@@ -9,8 +9,8 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"github.com/dgdts/UniversalServer/biz/biz_context"
-	"github.com/dgdts/UniversalServer/pkg/utils"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/pkg/utils"
 	"github.com/dgrijalva/jwt-go"
 )
 

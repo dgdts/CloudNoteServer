@@ -12,7 +12,7 @@ import (
 	hertz_config "github.com/cloudwego/hertz/pkg/common/config"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	hertz_utils "github.com/cloudwego/hertz/pkg/common/utils"
-	"github.com/dgdts/UniversalServer/pkg/config"
+	"github.com/dgdts/CloudNoteServer/pkg/config"
 	"github.com/hertz-contrib/registry/nacos"
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"

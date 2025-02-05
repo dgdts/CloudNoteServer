@@ -6,8 +6,8 @@ import (
 	"context"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	binaryBiz "github.com/dgdts/UniversalServer/biz/binary"
-	"github.com/dgdts/UniversalServer/internal/response"
+	binaryBiz "github.com/dgdts/CloudNoteServer/biz/binary"
+	"github.com/dgdts/CloudNoteServer/internal/response"
 )
 
 // GetUploadToken .

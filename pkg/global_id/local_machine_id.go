@@ -1,6 +1,6 @@
 package global_id
 
-import "github.com/dgdts/UniversalServer/pkg/utils"
+import "github.com/dgdts/CloudNoteServer/pkg/utils"
 
 var _ machineIDGetter = (*localMachineIDGetter)(nil)
 

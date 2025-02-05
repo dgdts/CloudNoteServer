@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/dgdts/UniversalServer/biz/biz_context"
-	"github.com/dgdts/UniversalServer/biz/model/note"
-	"github.com/dgdts/UniversalServer/biz/note/model"
-	"github.com/dgdts/UniversalServer/biz/note/types"
-	"github.com/dgdts/UniversalServer/pkg/global_id"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/biz/model/note"
+	"github.com/dgdts/CloudNoteServer/biz/note/model"
+	"github.com/dgdts/CloudNoteServer/biz/note/types"
+	"github.com/dgdts/CloudNoteServer/pkg/global_id"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

@@ -4,7 +4,7 @@ package note
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	note "github.com/dgdts/UniversalServer/biz/handler/note"
+	note "github.com/dgdts/CloudNoteServer/biz/handler/note"
 )
 
 /*

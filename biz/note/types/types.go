@@ -1,9 +1,9 @@
 package types
 
 import (
-	"github.com/dgdts/UniversalServer/biz/biz_context"
-	"github.com/dgdts/UniversalServer/biz/model/note"
-	"github.com/dgdts/UniversalServer/biz/note/model"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/biz/model/note"
+	"github.com/dgdts/CloudNoteServer/biz/note/model"
 )
 
 const (

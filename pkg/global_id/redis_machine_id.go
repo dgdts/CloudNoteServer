@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dgdts/UniversalServer/pkg/utils"
+	"github.com/dgdts/CloudNoteServer/pkg/utils"
 	"github.com/redis/go-redis/v9"
 )
 

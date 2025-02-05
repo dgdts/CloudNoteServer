@@ -1,4 +1,4 @@
-module github.com/dgdts/UniversalServer
+module github.com/dgdts/CloudNoteServer
 
 go 1.22
 

@@ -4,7 +4,7 @@ package share
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	share "github.com/dgdts/UniversalServer/biz/handler/share"
+	share "github.com/dgdts/CloudNoteServer/biz/handler/share"
 )
 
 /*

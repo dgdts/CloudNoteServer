@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/dgdts/UniversalServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
 )
 
 type JSONHandler[Req any, Res any] func(c *biz_context.BizContext, req *Req) (*Res, error)

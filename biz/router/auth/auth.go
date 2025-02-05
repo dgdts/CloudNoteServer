@@ -4,7 +4,7 @@ package auth
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	auth "github.com/dgdts/UniversalServer/biz/handler/auth"
+	auth "github.com/dgdts/CloudNoteServer/biz/handler/auth"
 )
 
 /*

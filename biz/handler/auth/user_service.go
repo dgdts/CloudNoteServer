@@ -7,9 +7,9 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	authBiz "github.com/dgdts/UniversalServer/biz/auth"
-	auth "github.com/dgdts/UniversalServer/biz/model/auth"
-	"github.com/dgdts/UniversalServer/internal/response"
+	authBiz "github.com/dgdts/CloudNoteServer/biz/auth"
+	auth "github.com/dgdts/CloudNoteServer/biz/model/auth"
+	"github.com/dgdts/CloudNoteServer/internal/response"
 )
 
 // Login .

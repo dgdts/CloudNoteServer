@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/dgdts/UniversalServer/internal/utils"
-	"github.com/dgdts/UniversalServer/pkg/mongo"
+	"github.com/dgdts/CloudNoteServer/internal/utils"
+	"github.com/dgdts/CloudNoteServer/pkg/mongo"
 )
 
 const (

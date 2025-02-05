@@ -1,43 +1,38 @@
-# 构建阶段
-FROM golang:1.22-alpine AS builder
+FROM xsjop-harbor.seasungame.com/xsjweb-k8s/base/golang:1.21.8-alpine3.18 AS builder
+LABEL stage=gobuilder
 
-# 设置工作目录
-WORKDIR /app
+ENV GOOS linux
+ENV GOARCH amd64
+ENV CGO_ENABLED 0
 
-# 安装基础工具
-RUN apk add --no-cache git
+ARG ARTIFACT_ID
 
-# 复制 go.mod 和 go.sum
-COPY go.mod go.sum ./
+WORKDIR /build
+COPY ./$ARTIFACT_ID/output .
 
-# 下载依赖
-RUN go mod download
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk add tzdata
 
-# 复制源代码
-COPY . .
 
-# 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -o main cmd/universal_server/main.go
 
-# 运行阶段
-FROM alpine
 
-WORKDIR /app
+FROM xsjop-harbor.seasungame.com/xsjweb-k8s/base/alpine:3.18
 
-# 创建配置目录
-RUN mkdir -p /app/conf
+ARG ARTIFACT_ID
+USER root 
 
-# 从构建阶段复制编译好的二进制文件
-COPY --from=builder /app/main .
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /build /application/$ARTIFACT_ID
 
-# 复制配置文件
-COPY conf/dev/conf.yaml /app/conf/
+ENV TZ=Asia/Shanghai
+WORKDIR /application/$ARTIFACT_ID
 
-# 暴露应用端口
-EXPOSE 9898
+# COPY /usr/share/zoneinfo /usr/share/zoneinfo
+# COPY ./$ARTIFACT_ID/output .
+EXPOSE 8888
 
-# 设置环境变量
-ENV CONFIG_PATH=/app/conf/conf.yaml
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
-# 运行应用
-ENTRYPOINT ["./main"]
+RUN chmod +x /application/$ARTIFACT_ID/bin/trade && chmod 4755 /bin/busybox && apk update && apk add curl && apk add busybox-extras
+
+ENTRYPOINT ["./bin/trade"]

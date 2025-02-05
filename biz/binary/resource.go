@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dgdts/UniversalServer/biz/biz_context"
-	"github.com/dgdts/UniversalServer/biz/model/binary"
-	"github.com/dgdts/UniversalServer/pkg/minio"
+	"github.com/dgdts/CloudNoteServer/biz/biz_context"
+	"github.com/dgdts/CloudNoteServer/biz/model/binary"
+	"github.com/dgdts/CloudNoteServer/pkg/minio"
 )
 
 func generateFilename(userID string, filename string) string {

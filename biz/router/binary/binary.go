@@ -4,7 +4,7 @@ package binary
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
-	binary "github.com/dgdts/UniversalServer/biz/handler/binary"
+	binary "github.com/dgdts/CloudNoteServer/biz/handler/binary"
 )
 
 /*

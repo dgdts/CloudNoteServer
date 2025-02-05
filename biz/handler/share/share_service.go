@@ -7,7 +7,7 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	share "github.com/dgdts/UniversalServer/biz/model/share"
+	share "github.com/dgdts/CloudNoteServer/biz/model/share"
 )
 
 // GetShareNote .

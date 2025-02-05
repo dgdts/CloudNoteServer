@@ -5,7 +5,7 @@ global:                     #全局配置
   container_name: ${HOSTNAME}
 
 biz_config:
-  app_id: "universal_server"
+  app_id: "cloud_note_server"
   business_id: 1
   init_redis_cache_timeout: 60
   share_domain: "localhost:9988"
@@ -17,7 +17,7 @@ hertz:
   enable_gzip: true 
   enable_access_log: true
   service: 
-    - name: "universal_server"
+    - name: "cloud_note_server"
       addr: ":9898"
 
 log:                      #日志配置
@@ -34,14 +34,14 @@ mongo:
   password: ""
   max_pool_size: 20
   min_pool_size: 10
-  database: "universal_server"
+  database: "cloud_note_server"
 
 minio:
   endpoint: "localhost:9000"
   access_key_id: "minioadmin"
   secret_access_key: "minioadmin123"
   use_ssl: false
-  bucket_name: "universalserver"
+  bucket_name: "cloudnoteserver"
 
 registry:                 #注册中心
   name: nacos

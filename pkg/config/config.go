@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/dgdts/UniversalServer/pkg/kafka"
-	"github.com/dgdts/UniversalServer/pkg/minio"
+	"github.com/dgdts/CloudNoteServer/pkg/kafka"
+	"github.com/dgdts/CloudNoteServer/pkg/minio"
 )
 
 type Global struct {

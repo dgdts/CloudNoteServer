@@ -7,9 +7,9 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	"github.com/dgdts/UniversalServer/biz/model/note"
-	noteBiz "github.com/dgdts/UniversalServer/biz/note"
-	"github.com/dgdts/UniversalServer/internal/response"
+	"github.com/dgdts/CloudNoteServer/biz/model/note"
+	noteBiz "github.com/dgdts/CloudNoteServer/biz/note"
+	"github.com/dgdts/CloudNoteServer/internal/response"
 )
 
 // CreateNote .
